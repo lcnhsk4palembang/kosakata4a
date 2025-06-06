@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSK 4A VOCABULARY</title>
+    <style>
+        body {
+            font-family: Simsun, sans-serif;
+            margin: 32px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .lesson-btn {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .lesson-btn:hover {
+            background-color: #2980b9;
+        }
+        .lesson-btn.active {
+            background-color: #e74c3c;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e6f7ff;
+        }
+        .character {
+            font-size: 18px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .no-lesson {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HSK 4a VOCABULARY Mandarin-indonesia</h1>
+        <h2>by Effendi,S.Pd.B.,B.Ed (0899 4477 998)</h2>
+        
+        <div class="controls">
+            <button class="lesson-btn" onclick="showLesson(1)">Lesson 1</button>
+            <button class="lesson-btn" onclick="showLesson(2)">Lesson 2</button>
+            <button class="lesson-btn" onclick="showLesson(3)">Lesson 3</button>
+            <button class="lesson-btn" onclick="showLesson(4)">Lesson 4</button>
+            <button class="lesson-btn" onclick="showLesson(5)">Lesson 5</button>
+            <button class="lesson-btn" onclick="showLesson(6)">Lesson 6</button>
+            <button class="lesson-btn" onclick="showLesson(7)">Lesson 7</button>
+            <button class="lesson-btn" onclick="showLesson(8)">Lesson 8</button>
+            <button class="lesson-btn" onclick="showLesson(9)">Lesson 9</button>
+            <button class="lesson-btn" onclick="showLesson(10)">Lesson 10</button>
+            <button class="lesson-btn" onclick="showAllLessons()">All Lessons</button>
+        </div>
+        
+        <div id="lesson-container">
+            <div class="no-lesson">Please select a lesson to display vocabulary</div>
+        </div>
+    </div>
+
+    <script>
+        // Vocabulary data organized by lessons
+        const vocabularyByLesson = {
+            1: [
+                { character: "法律", pinyin: "fǎlǜ", meaning: "hukum" },
+                { character: "俩", pinyin: "liǎ", meaning: "berdua" },
+                { character: "印象", pinyin: "yìnxiàng", meaning: "kesan" },
+                { character: "深", pinyin: "shēn", meaning: "dalam" },
+                { character: "熟悉", pinyin: "shúxī", meaning: "mengenal dengan baik" },
+                { character: "不仅", pinyin: "bùjǐn", meaning: "tidak hanya" },
+                { character: "性格", pinyin: "xìnggé", meaning: "kepribadian" },
+                { character: "开玩笑", pinyin: "kāi wánxiào", meaning: "bercanda" },
+                { character: "从来", pinyin: "conglai", meaning: "sejak awal/selalu" },
+                { character: "最好", pinyin: "zuìhǎo", meaning: "paling/lebih baik" },
+                { character: "共同", pinyin: "gòngtóng", meaning: "bersama" },
+                { character: "适合", pinyin: "shìhé", meaning: "cocok" },
+                { character: "幸福", pinyin: "xìngfú", meaning: "bahagia" },
+                { character: "生活", pinyin: "shēnghuó", meaning: "kehidupan" },
+                { character: "刚", pinyin: "gāng", meaning: "baru saja" },
+                { character: "浪漫", pinyin: "làngmàn", meaning: "romantis" },
+                { character: "够", pinyin: "gòu", meaning: "cukup" },
+                { character: "缺点", pinyin: "quēdiǎn", meaning: "kekurangan" },
+                { character: "接受", pinyin: "jiēshòu", meaning: "menerima" },
+                { character: "羡慕", pinyin: "xiànmù", meaning: "mengagumi/iri" },
+                { character: "爱情", pinyin: "àiqíng", meaning: "percintaan" },
+                { character: "星星", pinyin: "xīngxing", meaning: "bintang" },
+                { character: "即使", pinyin: "jíshǐ", meaning: "sekalipun" },
+                { character: "加班", pinyin: "jiābān", meaning: "lembur" },
+                { character: "亮", pinyin: "liàng", meaning: "terang" },
+                { character: "感动", pinyin: "gǎndòng", meaning: "tergugah/tersentuh" },
+                { character: "自然", pinyin: "zīrán", meaning: "alami" },
+                { character: "原因", pinyin: "yuányīn", meaning: "alasan/sebab" },
+                { character: "互相", pinyin: "hùxiāng", meaning: "saling" },
+                { character: "吸引", pinyin: "xīyǐn", meaning: "menarik" },
+                { character: "幽默", pinyin: "yōumò", meaning: "humoris" },
+                { character: "脾气", pinyin: "píqì", meaning: "tempramen/sifat" }
+            ],
+            2: [
+                { character: "适应", pinyin: "shìyīng", meaning: "beradaptasi" },
+                { character: "交", pinyin: "jiāo", meaning: "menjalin" },
+                { character: "平时", pinyin: "píngshí", meaning: "biasanya" },
+                { character: "逛", pinyin: "guàng", meaning: "jalan-jalan" },
+                { character: "短信", pinyin: "duǎnxìn", meaning: "pesan singkat" },
+                { character: "正好", pinyin: "zhènghǎo", meaning: "lebih baik" },
+                { character: "聚会", pinyin: "jùhuì", meaning: "berkumpul" },
+                { character: "联系", pinyin: "liánxì", meaning: "menghubungi" },
+                { character: "差不多", pinyin: "chàbùduō", meaning: "hampir" },
+                { character: "专门", pinyin: "zhuāmmén", meaning: "khusus" },
+                { character: "毕业", pinyin: "bìyè", meaning: "lulus/tamat" },
+                { character: "麻烦", pinyin: "máfán", meaning: "merepotkan" },
+                { character: "好像", pinyin: "hǎoxiàng", meaning: "seperti/seolah-olah" },
+                { character: "重新", pinyin: "chóngxīn", meaning: "sekali lagi/mulai baru" },
+                { character: "尽管", pinyin: "jìnguǎn", meaning: "meskipun" },
+                { character: "真正", pinyin: "zhēnzhèng", meaning: "benar2/sungguh2" },
+                { character: "友谊", pinyin: "yǒuyì", meaning: "persahabatan" },
+                { character: "丰富", pinyin: "fēngfù", meaning: "kaya/memperkaya" },
+                { character: "无聊", pinyin: "wúliáo", meaning: "bosan" },
+                { character: "讨厌", pinyin: "tǎoyàn", meaning: "jengkel" },
+                { character: "却", pinyin: "què", meaning: "namun/tapi" },
+                { character: "周围", pinyin: "zhōuwéi", meaning: "sekeliling" },
+                { character: "交流", pinyin: "jiōoliú", meaning: "berkomunikasi" },
+                { character: "理解", pinyin: "lǐjiě", meaning: "memahami" },
+                { character: "镜子", pinyin: "jǐngzi", meaning: "cermin/kaca" },
+                { character: "而", pinyin: "ér", meaning: "tapi" },
+                { character: "当", pinyin: "dāng", meaning: "saat/menjadi" },
+                { character: "困难", pinyin: "kùnnán", meaning: "kesulitan" },
+                { character: "及时", pinyin: "jíshí", meaning: "segera/secepat mungkin" },
+                { character: "陪", pinyin: "péi", meaning: "menemani" }
+            ],
+            3: [
+                { character: "挺", pinyin: "tǐng", meaning: "cukup" },
+                { character: "紧张", pinyin: "jǐnzhāng", meaning: "jinzhang" },
+                { character: "信心", pinyin: "xìnxīn", meaning: "percaya diri" },
+                { character: "能力", pinyin: "nénglì", meaning: "kemampuan" },
+                { character: "招聘", pinyin: "zhāopìn", meaning: "merekrut" },
+                { character: "提供", pinyin: "tígōng", meaning: "menyediakan" },
+                { character: "负责", pinyin: "fùzé", meaning: "bertanggung jawab" },
+                { character: "本来", pinyin: "bénlái", meaning: "semula/awalnya" },
+                { character: "应聘", pinyin: "yīngpìn", meaning: "mencari pekerjaan" },
+                { character: "材料", pinyin: "cáiliào", meaning: "data/bahan" },
+                { character: "符合", pinyin: "fúhé", meaning: "sesuai" },
+                { character: "通知", pinyin: "tōngzhī", meaning: "menginformasikan/pemberitahuan" },
+                { character: "律师", pinyin: "lǜshī", meaning: "pengacara" },
+                { character: "专业", pinyin: "zhāanyè", meaning: "jurusan" },
+                { character: "另外", pinyin: "lìngwài", meaning: "selain itu" },
+                { character: "收入", pinyin: "shōurù", meaning: "pendapatan/pemasukan" },
+                { character: "咱们", pinyin: "zánmen", meaning: "kita" },
+                { character: "安排", pinyin: "ānpái", meaning: "mengatur" },
+                { character: "首先", pinyin: "shǒuxiān", meaning: "pertama-tama/terlebih dulu" },
+                { character: "正式", pinyin: "zhèngshì", meaning: "formal" },
+                { character: "留", pinyin: "liú", meaning: "meninggalkan" },
+                { character: "其次", pinyin: "qícì", meaning: "selanjutnya" },
+                { character: "诚实", pinyin: "chéngshí", meaning: "jujur" },
+                { character: "改变", pinyin: "gǎibiàn", meaning: "merubah" },
+                { character: "感觉", pinyin: "gǎnjué", meaning: "merasa" },
+                { character: "判断", pinyin: "pànduàn", meaning: "memutuskan" },
+                { character: "顾客", pinyin: "gùkè", meaning: "pelanggan" },
+                { character: "准时", pinyin: "zhǔnshí", meaning: "tepat waktu" },
+                { character: "不管", pinyin: "bùguǎn", meaning: "biarpun/tidak peduli" },
+                { character: "与", pinyin: "yǔ", meaning: "dengan" },
+                { character: "约会", pinyin: "yuēhuì", meaning: "membuat janji" }
+            ],
+            4: [
+                { character: "提", pinyin: "tí", meaning: "mengungkit" },
+                { character: "以为", pinyin: "yǐwéi", meaning: "mengira" },
+                { character: "份", pinyin: "fèn", meaning: "satuan u/pekerjaan" },
+                { character: "完全", pinyin: "wánquán", meaning: "sepenuhnya/sama sekali" },
+                { character: "赚", pinyin: "zhuàn", meaning: "untung/mencari penghasilan" },
+                { character: "调查", pinyin: "diàochá", meaning: "penyelidikan" },
+                { character: "原来", pinyin: "yuánlái", meaning: "ternyata/semula" },
+                { character: "计划", pinyin: "jìhuà", meaning: "rencana" },
+                { character: "提前", pinyin: "tíqián", meaning: "lebih awal" },
+                { character: "保证", pinyin: "bǎozhèng", meaning: "menjamin" },
+                { character: "提醒", pinyin: "tíxǐng", meaning: "mengungkit" },
+                { character: "乱", pinyin: "luàn", meaning: "kacau/berantakan" },
+                { character: "生意", pinyin: "shēngyì", meaning: "bisnis/usaha" },
+                { character: "谈", pinyin: "tán", meaning: "membicarakan" },
+                { character: "并", pinyin: "bìng", meaning: "penakanan untuk negatif" },
+                { character: "积累", pinyin: "jīlèi", meaning: "memupuk/mengumpulkan" },
+                { character: "经验", pinyin: "jīngyàn", meaning: "pengalaman" },
+                { character: "一切", pinyin: "yīqiē", meaning: "semua" },
+                { character: "按照", pinyin: "ànzhào", meaning: "berdasarkan" },
+                { character: "成功", pinyin: "chénggōng", meaning: "sukses" },
+                { character: "顺利", pinyin: "shùnlì", meaning: "lancar" },
+                { character: "感谢", pinyin: "gǎnxiè", meaning: "berterimakasih" },
+                { character: "消息", pinyin: "xiāoxī", meaning: "berita/info" },
+                { character: "按时", pinyin: "ànshí", meaning: "tepat waktu" },
+                { character: "奖金", pinyin: "jiǎngjīn", meaning: "bonus/penghargaan" },
+                { character: "工资", pinyin: "gōngzī", meaning: "gaji" },
+                { character: "方法", pinyin: "fāngfǎ", meaning: "cara" },
+                { character: "知识", pinyin: "zhīshí", meaning: "pengetahuan" },
+                { character: "不得不", pinyin: "bùdébù", meaning: "mau tidak mau" },
+                { character: "甚至", pinyin: "shènzhì", meaning: "bahkan" },
+                { character: "责任", pinyin: "zérèn", meaning: "tugas/tanggung jawab" }
+            ],
+            5: [
+                { character: "家具", pinyin: "jiājù", meaning: "perabot rumah tangga" },
+                { character: "沙发", pinyin: "shāfā", meaning: "sofa" },
+                { character: "打折", pinyin: "dǎzhé", meaning: "diskon" },
+                { character: "价格", pinyin: "jiàgé", meaning: "harga" },
+                { character: "质量", pinyin: "zhìliàng", meaning: "kualitas" },
+                { character: "肯定", pinyin: "kěndìng", meaning: "pasti" },
+                { character: "流行", pinyin: "liúxíng", meaning: "populer" },
+                { character: "顺便", pinyin: "shùnbiàn", meaning: "sekalian" },
+                { character: "台", pinyin: "tái", meaning: "satuan u/seperangkat" },
+                { character: "光", pinyin: "guāng", meaning: "hanya/cahaya" },
+                { character: "实在", pinyin: "shízài", meaning: "benar-benar/ternyata" },
+                { character: "制冷", pinyin: "zhìlěng", meaning: "pendingin" },
+                { character: "效果", pinyin: "xiàoguǒ", meaning: "efek/hasil" },
+                { character: "现金", pinyin: "xiànjīn", meaning: "uang tunai" },
+                { character: "邀请", pinyin: "yāoqǐng", meaning: "mengundang" },
+                { character: "葡萄", pinyin: "pútáo", meaning: "anggur" },
+                { character: "艺术", pinyin: "yìshù", meaning: "seni" },
+                { character: "广告", pinyin: "guǎnggào", meaning: "iklan" },
+                { character: "味道", pinyin: "wèidào", meaning: "aroma/rasa" },
+                { character: "优点", pinyin: "yōudiǎn", meaning: "kelebihan" },
+                { character: "实际", pinyin: "shiji", meaning: "kenyataan" },
+                { character: "考虑", pinyin: "kǎolǜ", meaning: "mempertimbangkan" },
+                { character: "标准", pinyin: "biāozhǔn", meaning: "standar" },
+                { character: "样子", pinyin: "yàngzi", meaning: "rupa" },
+                { character: "年龄", pinyin: "niánlíng", meaning: "usia" },
+                { character: "浪费", pinyin: "làngfèi", meaning: "pemborosan" },
+                { character: "购物", pinyin: "gòuwù", meaning: "berbelanja" },
+                { character: "尤其", pinyin: "yóuqí", meaning: "terutama/khususnya" },
+                { character: "受到", pinyin: "shòudào", meaning: "menerima" },
+                { character: "任何", pinyin: "rènhé", meaning: "apapun" },
+                { character: "寄", pinyin: "jì", meaning: "mengirim" }
+            ],
+            6: [
+                { character: "果子", pinyin: "guǒzi", meaning: "buah" },
+                { character: "服务员", pinyin: "fúwùyuán", meaning: "pelayan" },
+                { character: "袜子", pinyin: "wàzi", meaning: "kaos kaki" },
+                { character: "打扰", pinyin: "dǎrǎo", meaning: "mengganggu" },
+                { character: "竟然", pinyin: "jìngrán", meaning: "diluar dugaan" },
+                { character: "西红柿", pinyin: "xīhóngshì", meaning: "tomat" },
+                { character: "百分之", pinyin: "bǎifēnzhī", meaning: "persen" },
+                { character: "倍", pinyin: "bèi", meaning: "kali lipat" },
+                { character: "皮肤", pinyin: "pífū", meaning: "kulit" },
+                { character: "好处", pinyin: "hǎochù", meaning: "manfaat" },
+                { character: "尝", pinyin: "cháng", meaning: "cicip/mencicipi" },
+                { character: "轻", pinyin: "qīng", meaning: "ringan" },
+                { character: "方面", pinyin: "fāngmiàn", meaning: "aspek/sisi" },
+                { character: "值得", pinyin: "zhídé", meaning: "layak/pantas" },
+                { character: "活动", pinyin: "huódòng", meaning: "kegiatan" },
+                { character: "内", pinyin: "nèi", meaning: "dalam" },
+                { character: "免费", pinyin: "miǎnfèi", meaning: "gratis" },
+                { character: "修理", pinyin: "xiūlǐ", meaning: "memperbaiki" },
+                { character: "支持", pinyin: "zhīchí", meaning: "mendukung" },
+                { character: "举行", pinyin: "jǔxíng", meaning: "mengadakan(rapat,acara" },
+                { character: "满", pinyin: "mǎn", meaning: "penuh" },
+                { character: "其中", pinyin: "qízhōng", meaning: "diantaranya" },
+                { character: "小说", pinyin: "xiǎoshuō", meaning: "novel" },
+                { character: "会员卡", pinyin: "huìyuánkǎ", meaning: "kartu anggota" },
+                { character: "所有", pinyin: "suǒyǒu", meaning: "semua" },
+                { character: "获得", pinyin: "huòdé", meaning: "memperoleh" },
+                { character: "情况", pinyin: "qíngkuàng", meaning: "keadaan/kondisi" },
+                { character: "例如", pinyin: "lìrú", meaning: "contoh" },
+                { character: "举办", pinyin: "jǔbàn", meaning: "melaksanakan" },
+                { character: "各", pinyin: "gè", meaning: "berbagai" },
+                { character: "降低", pinyin: "jiàngdī", meaning: "menurunkan" }
+            ],
+            7: [
+                { character: "流血", pinyin: "liúxuè", meaning: "berdarah" },
+                { character: "擦", pinyin: "cā", meaning: "mengelap" },
+                { character: "气候", pinyin: "qìhòu", meaning: "iklim" },
+                { character: "估计", pinyin: "gūjì", meaning: "prakiraan" },
+                { character: "咳嗽", pinyin: "késòu", meaning: "batuk" },
+                { character: "严重", pinyin: "yánzhòng", meaning: "parah" },
+                { character: "窗户", pinyin: "chuānghù", meaning: "jendela" },
+                { character: "空气", pinyin: "kōngqì", meaning: "udara" },
+                { character: "抽烟", pinyin: "chōuyān", meaning: "merokok" },
+                { character: "动作", pinyin: "dòngzuò", meaning: "gerakan" },
+                { character: "帅", pinyin: "shuài", meaning: "ganteng" },
+                { character: "出现", pinyin: "chūxiàn", meaning: "muncul/keluar" },
+                { character: "后悔", pinyin: "hòuhuǐ", meaning: "menyesal" },
+                { character: "来不及", pinyin: "láibùjí", meaning: "tidak sempat" },
+                { character: "反对", pinyin: "fǎnduì", meaning: "menentang" },
+                { character: "大夫", pinyin: "dàifu", meaning: "dokter/tabib" },
+                { character: "植物", pinyin: "zhíwù", meaning: "tanaman" },
+                { character: "研究", pinyin: "yánjiū", meaning: "menganalisis" },
+                { character: "超过", pinyin: "chāoguò", meaning: "melampaui" },
+                { character: "散步", pinyin: "sànbù", meaning: "jalan santai" },
+                { character: "之", pinyin: "zhī", meaning: "kata penghubung" },
+                { character: "精神", pinyin: "jīngshén", meaning: "semangat" },
+                { character: "教授", pinyin: "jiàoshòu", meaning: "profesor" },
+                { character: "数字", pinyin: "shùzì", meaning: "angka/bilangan" },
+                { character: "说明", pinyin: "shuōmíng", meaning: "petunjuk/menerangkan" },
+                { character: "要是", pinyin: "yàoshì", meaning: "jika" },
+                { character: "既", pinyin: "jì", meaning: "(keduanya)" },
+                { character: "减肥", pinyin: "jiǎnféi", meaning: "diet" },
+                { character: "辛苦", pinyin: "xīnkǔ", meaning: "susah dan menderita" },
+                { character: "肚子", pinyin: "dùzi", meaning: "perut" },
+                { character: "感情", pinyin: "gǎnqíng", meaning: "perasaan" },
+                { character: "烦恼", pinyin: "fánnǎo", meaning: "kekhawatiran" },
+                { character: "掉", pinyin: "diào", meaning: "jatuh/mengikuti verb" }
+            ],
+            8: [
+                { character: "巧克力", pinyin: "qiǎokèlì", meaning: "cokelat" },
+                { character: "亲戚", pinyin: "qīnqī", meaning: "sanak saudara" },
+                { character: "伤心", pinyin: "shāngxīn", meaning: "sedih" },
+                { character: "使", pinyin: "shǐ", meaning: "membuat" },
+                { character: "心情", pinyin: "xīnqíng", meaning: "suasana hati" },
+                { character: "愉快", pinyin: "yúkuài", meaning: "bahagia" },
+                { character: "景色", pinyin: "jǐngsè", meaning: "pemandangan" },
+                { character: "放松", pinyin: "fàngsōng", meaning: "rileks" },
+                { character: "压力", pinyin: "yālì", meaning: "tekanan" },
+                { character: "回忆", pinyin: "huíyì", meaning: "mengenang kembali" },
+                { character: "发生", pinyin: "fāshēng", meaning: "terjadi" },
+                { character: "成为", pinyin: "chéngwéi", meaning: "menjadi" },
+                { character: "只要", pinyin: "zhǐyào", meaning: "asalkan" },
+                { character: "师傅", pinyin: "shīfù", meaning: "ahli/guru" },
+                { character: "大使馆", pinyin: "dàshíguǎn", meaning: "kedutaan" },
+                { character: "堵车", pinyin: "dǔchē", meaning: "macet" },
+                { character: "距离", pinyin: "jǜlí", meaning: "jarak" },
+                { character: "耐心", pinyin: "nàixīn", meaning: "sabar" },
+                { character: "生命", pinyin: "shēngmìng", meaning: "nyawa/kehidupan" },
+                { character: "缺少", pinyin: "quēshǎo", meaning: "kurang" },
+                { character: "到处", pinyin: "dàochù", meaning: "dimana-mana" },
+                { character: "态度", pinyin: "tàidù", meaning: "sikap" },
+                { character: "因此", pinyin: "yīncǐ", meaning: "oleh karenanya" },
+                { character: "科学", pinyin: "kēxué", meaning: "ilmu pengetahuan" },
+                { character: "证明", pinyin: "zhèngmíng", meaning: "membuktikan" },
+                { character: "往往", pinyin: "wǎngwǎng", meaning: "selalu" },
+                { character: "阳光", pinyin: "yángguāng", meaning: "optimis/cahaya matahari" },
+                { character: "积极", pinyin: "jījí", meaning: "aktif/positif" },
+                { character: "特点", pinyin: "tèdiǎn", meaning: "kelebihan/karakteristik" }
+            ],
+            9: [
+                { character: "饼干", pinyin: "bǐnggān", meaning: "biskuit" },
+                { character: "难道", pinyin: "nándào", meaning: "pertanyaan retorik" },
+                { character: "得", pinyin: "děi", meaning: "harus" },
+                { character: "坚持", pinyin: "jiānchí", meaning: "bertekad,berteguh" },
+                { character: "放弃", pinyin: "fàngqì", meaning: "menyerah" },
+                { character: "主意", pinyin: "zhǔyǐ", meaning: "ide/pendapat" },
+                { character: "网球", pinyin: "wǎngqiú", meaning: "tenis" },
+                { character: "国际", pinyin: "guójì", meaning: "internasional" },
+                { character: "轻松", pinyin: "qīngsōng", meaning: "santai" },
+                { character: "赢", pinyin: "yíng", meaning: "menang" },
+                { character: "随便", pinyin: "suíbiàn", meaning: "sembarangan" },
+                { character: "汗", pinyin: "hàn", meaning: "keringat" },
+                { character: "通过", pinyin: "tōngguò", meaning: "melewati/lulus" },
+                { character: "篇", pinyin: "piān", meaning: "satuan artikel" },
+                { character: "作家", pinyin: "zuòjiā", meaning: "penulis" },
+                { character: "当时", pinyin: "dāngshí", meaning: "saat itu" },
+                { character: "可是", pinyin: "kěshì", meaning: "tetapi" },
+                { character: "正确", pinyin: "zhèngquè", meaning: "tepat" },
+                { character: "理想", pinyin: "lǐxiǎng", meaning: "cita-cita" },
+                { character: "勇敢", pinyin: "yǒnggǎn", meaning: "berani" },
+                { character: "结果", pinyin: "jiéguǒ", meaning: "hasil" },
+                { character: "失败", pinyin: "shībài", meaning: "gagal" },
+                { character: "过程", pinyin: "guòchéng", meaning: "proses" },
+                { character: "至少", pinyin: "zhìshǎo", meaning: "paling tidak" },
+                { character: "总结", pinyin: "zǒngjié", meaning: "kesimpulan" },
+                { character: "取", pinyin: "qǔ", meaning: "mengambil" },
+                { character: "经历", pinyin: "jīnglì", meaning: "pengalaman" },
+                { character: "许多", pinyin: "xuduo", meaning: "banyak" },
+                { character: "区别", pinyin: "qūbié", meaning: "perbedaan" },
+                { character: "暂时", pinyin: "zànshí", meaning: "sementara" },
+                { character: "面对", pinyin: "miànduì", meaning: "menghadapi" }
+            ],
+            10: [
+                { character: "礼拜天", pinyin: "lǐbàitiān", meaning: "hari Minggu" },
+                { character: "空儿", pinyin: "kōngr", meaning: "waktu luang" },
+                { character: "母亲", pinyin: "mǔqīn", meaning: "ibu" },
+                { character: "不过", pinyin: "bùguò", meaning: "tapi,tetapi" },
+                { character: "永远", pinyin: "yǒngyuǎn", meaning: "selamanya" },
+                { character: "方向", pinyin: "fāngxiàng", meaning: "arah" },
+                { character: "优秀", pinyin: "yōuxiù", meaning: "terbaik" },
+                { character: "硕士", pinyin: "shòoshì", meaning: "master,S2" },
+                { character: "翻译", pinyin: "fānyì", meaning: "terjemah/menterjemahkan" },
+                { character: "确实", pinyin: "quèshí", meaning: "benar-benar" },
+                { character: "兴奋", pinyin: "xīngfèn", meaning: "antusias/gembira" },
+                { character: "拉", pinyin: "lā", meaning: "tarik/menarik" },
+                { character: "建议", pinyin: "jiànyì", meaning: "saran/pendapat" },
+                { character: "职业", pinyin: "zhíyè", meaning: "pekerjaan" },
+                { character: "关键", pinyin: "guānjiàn", meaning: "kunci/utama" },
+                { character: "将来", pinyin: "jiānglái", meaning: "kelak/kedepannya" },
+                { character: "发展", pinyin: "fāzhǎn", meaning: "berkembang/perkembangan" },
+                { character: "躺", pinyin: "tǎng", meaning: "berbaring" },
+                { character: "困", pinyin: "kùn", meaning: "mengantuk" },
+                { character: "经济", pinyin: "jīngjì", meaning: "ekonomi" },
+                { character: "条件", pinyin: "tiáojiàn", meaning: "syarat" },
+                { character: "富", pinyin: "fù", meaning: "kaya" },
+                { character: "穷", pinyin: "qióng", meaning: "miskin" },
+                { character: "等", pinyin: "děng", meaning: "dan lain2" },
+                { character: "由于", pinyin: "yóuyú", meaning: "karena/sejak" },
+                { character: "比如", pinyin: "bǐrú", meaning: "contoh" },
+                { character: "橡皮", pinyin: "xiàngpí", meaning: "penghapus" },
+                { character: "糖", pinyin: "táng", meaning: "gula/permen" },
+                { character: "低", pinyin: "dī", meaning: "rendah" },
+                { character: "答案", pinyin: "dá'àn", meaning: "jawaban" }
+            ]
+        };
+
+        // Function to show a specific lesson
+        function showLesson(lessonNumber) {
+            // Update active button
+            document.querySelectorAll('.lesson-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const lessonContainer = document.getElementById('lesson-container');
+            const vocabulary = vocabularyByLesson[lessonNumber];
+            
+            if (!vocabulary) {
+                lessonContainer.innerHTML = '<div class="no-lesson">No vocabulary found for this lesson</div>';
+                return;
+            }
+            
+            // Create table HTML
+            let tableHTML = `
+                <h2>Lesson ${lessonNumber} Vocabulary</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Character</th>
+                            <th>Pinyin</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            // Add vocabulary rows
+            vocabulary.forEach((word, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td class="character">${word.character}</td>
+                        <td>${word.pinyin}</td>
+                        <td>${word.meaning}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            lessonContainer.innerHTML = tableHTML;
+        }
+        
+        // Function to show all lessons
+        function showAllLessons() {
+            // Update active button
+            document.querySelectorAll('.lesson-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const lessonContainer = document.getElementById('lesson-container');
+            let allLessonsHTML = '<h2>All Lessons Vocabulary</h2>';
+            
+            // Loop through all lessons
+            for (let lessonNumber = 1; lessonNumber <= 10; lessonNumber++) {
+                const vocabulary = vocabularyByLesson[lessonNumber];
+                
+                if (!vocabulary) continue;
+                
+                allLessonsHTML += `
+                    <h3>Lesson ${lessonNumber}</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Character</th>
+                                <th>Pinyin</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                // Add vocabulary rows
+                vocabulary.forEach((word, index) => {
+                    allLessonsHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td class="character">${word.character}</td>
+                            <td>${word.pinyin}</td>
+                            <td>${word.meaning}</td>
+                        </tr>
+                    `;
+                });
+                
+                allLessonsHTML += `
+                        </tbody>
+                    </table>
+                `;
+            }
+            
+            lessonContainer.innerHTML = allLessonsHTML;
+        }
+    </script>
+</body>
+</html>
